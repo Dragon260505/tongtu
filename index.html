@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>同途 · 我们也曾是你</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', 'Microsoft YaHei', system-ui, sans-serif;
+        }
+
+        body {
+            background: #f9fafc;
+            color: #1e293b;
+            line-height: 1.6;
+            padding: 24px;
+        }
+
+        .page {
+            max-width: 1120px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 20px 60px rgba(0, 20, 40, 0.08);
+            overflow: visible;
+            padding: 0 0 40px 0;
+        }
+
+        .hero {
+            background: linear-gradient(145deg, #0b1e33 0%, #163a5e 100%);
+            color: white;
+            padding: 48px 48px 40px 48px;
+            position: relative;
+        }
+
+        .brand-tagline {
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            opacity: 0.7;
+            font-weight: 400;
+            margin-bottom: 24px;
+            border-left: 3px solid #60b0f4;
+            padding-left: 14px;
+        }
+
+        .hero-main-title {
+            font-size: 3.6rem;
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+
+        .hero-sub {
+            font-size: 1.3rem;
+            font-weight: 400;
+            opacity: 0.85;
+            margin-top: 6px;
+            margin-bottom: 28px;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .hero-card {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(4px);
+            border-radius: 20px;
+            padding: 20px 18px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .hero-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #b6d8ff;
+        }
+
+        .hero-card p {
+            font-size: 0.92rem;
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+
+        section {
+            padding: 48px 48px 32px 48px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            margin-bottom: 24px;
+            color: #0b1e33;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: #e9edf2;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 24px;
+        }
+
+        .feature-block {
+            background: #f6f8fb;
+            border-radius: 20px;
+            padding: 24px;
+            transition: 0.2s ease;
+        }
+
+        .feature-block h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0f2b44;
+            margin-bottom: 8px;
+        }
+
+        .feature-block p,
+        .feature-block li {
+            font-size: 0.95rem;
+            color: #334155;
+        }
+
+        .feature-block ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .feature-block li {
+            padding: 4px 0 4px 20px;
+            position: relative;
+        }
+
+        .feature-block li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #2d7bcb;
+        }
+
+        .badge-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .badge {
+            background: white;
+            border-radius: 40px;
+            padding: 6px 16px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #0f2b44;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            border: 1px solid #e2e8f0;
+        }
+
+        .badge.blue {
+            background: #e3effc;
+            border-color: #b6d4f0;
+            color: #0b3b6b;
+        }
+
+        .price-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px 32px;
+            background: #f1f5f9;
+            border-radius: 20px;
+            padding: 24px 28px;
+            margin-top: 12px;
+        }
+
+        .price-item {
+            flex: 1 1 180px;
+        }
+
+        .price-item .label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #64748b;
+        }
+
+        .price-item .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0b1e33;
+        }
+
+        .price-item .sub {
+            font-size: 0.9rem;
+            color: #475569;
+        }
+
+        table.price-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        }
+
+        table.price-table th {
+            background: #eef3f9;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+            color: #0f2b44;
+        }
+
+        table.price-table td {
+            padding: 10px 16px;
+            border-bottom: 1px solid #ecf1f7;
+        }
+
+        table.price-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .cta-bar {
+            background: #0b1e33;
+            color: white;
+            padding: 28px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 16px;
+            border-radius: 20px;
+        }
+
+        .cta-bar .big {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .cta-bar .small {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 16px 24px;
+            border-radius: 16px;
+            min-width: 280px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .contact-icon {
+            font-size: 1.2rem;
+        }
+
+        .contact-label {
+            font-weight: 500;
+            min-width: 60px;
+        }
+
+        .contact-value {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .footnote {
+            text-align: center;
+            padding: 24px 48px 8px 48px;
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        .rule-list {
+            counter-reset: rule-counter;
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .rule-list li {
+            counter-increment: rule-counter;
+            padding: 3px 0 3px 28px;
+            position: relative;
+            font-size: 0.9rem;
+        }
+
+        .rule-list li::before {
+            content: counter(rule-counter) ".";
+            position: absolute;
+            left: 0;
+            font-weight: 600;
+            color: #2d7bcb;
+        }
+
+        .cta-wrapper {
+            padding: 0 48px 24px 48px;
+        }
+
+        /* 报名表单样式 */
+        .form-section {
+            background: linear-gradient(145deg, #f0f5fb 0%, #e8f0f8 100%);
+            border-radius: 24px;
+            padding: 40px;
+            margin: 0 48px 32px 48px;
+        }
+
+        .form-section h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #0b1e33;
+            margin-bottom: 6px;
+        }
+
+        .form-section .form-sub {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-bottom: 28px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #334155;
+        }
+
+        .form-group label .required {
+            color: #e53e3e;
+            margin-left: 2px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            background: white;
+            transition: border-color 0.2s;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #2d7bcb;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 400;
+            font-size: 0.9rem;
+            background: white;
+            padding: 8px 14px;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .checkbox-group label:hover {
+            border-color: #b6d4f0;
+            background: #f0f7ff;
+        }
+
+        .checkbox-group input[type="checkbox"]:checked + span {
+            font-weight: 600;
+            color: #2d7bcb;
+        }
+
+        .checkbox-group label:has(input:checked) {
+            border-color: #2d7bcb;
+            background: #e8f1fb;
+        }
+
+        .submit-btn {
+            grid-column: 1 / -1;
+            padding: 14px 32px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, #0b1e33, #1a4a7a);
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 0.5px;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #132d4a, #1d5690);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(11, 30, 51, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .form-msg {
+            grid-column: 1 / -1;
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-weight: 500;
+            text-align: center;
+            display: none;
+        }
+
+        .form-msg.success {
+            display: block;
+            background: #e6ffed;
+            color: #1a7f3c;
+            border: 1px solid #b7ebc3;
+        }
+
+        .form-msg.error {
+            display: block;
+            background: #ffeaea;
+            color: #c53030;
+            border: 1px solid #fecaca;
+        }
+
+        @media (max-width: 840px) {
+            .three-col { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 740px) {
+            body { padding: 8px; }
+            .page { border-radius: 20px; }
+            .hero { padding: 28px 16px; }
+            .hero-main-title { font-size: 2rem; }
+            .hero-grid { grid-template-columns: 1fr; }
+            section { padding: 28px 16px; }
+            .two-col { grid-template-columns: 1fr; }
+            .cta-bar { padding: 20px 18px; flex-direction: column; align-items: stretch; }
+            .cta-wrapper { padding: 0 12px 18px 12px; }
+            .price-row { flex-direction: column; gap: 12px; }
+            .contact-info { min-width: auto; }
+            .form-section {
+                margin: 0 8px 24px 8px;
+                padding: 24px 16px;
+                border-radius: 18px;
+            }
+            .form-section h2 { font-size: 1.3rem; }
+            .form-grid { grid-template-columns: 1fr; }
+            .form-group input,
+            .form-group select,
+            .form-group textarea { font-size: 16px; }
+            .checkbox-group { gap: 6px; }
+            .checkbox-group label {
+                padding: 8px 10px;
+                font-size: 0.85rem;
+            }
+            .submit-btn { font-size: 1rem; padding: 14px 24px; }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="brand-tagline">同途 · 同一条路，同一群人</div>
+        <div class="hero-main-title">我们也曾是你。</div>
+        <div class="hero-sub">刚走出高考的学长学姐，带你走通最难的那段路。</div>
+
+        <div class="hero-grid">
+            <div class="hero-card">
+                <h3>真·零基础避坑指南</h3>
+                <p>不用术语堆砌，用大白话讲透概念。哪些坑年年考年年掉，我们帮你一一填平。</p>
+            </div>
+            <div class="hero-card">
+                <h3>亦师亦友</h3>
+                <p>不仅是老师，更是榜样。分享大学生活与视野，告诉你山那边的风景。</p>
+            </div>
+            <div class="hero-card">
+                <h3>我们知道你卡在哪</h3>
+                <p>因为你正在经历的迷茫、焦虑、瓶颈，我们全都经历过。我们走过的弯路，你不必再走。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 为什么叫同途 -->
+    <section>
+        <div class="section-title">为什么叫"同途"？</div>
+        <div style="background:#f4f8fe; border-radius:20px; padding:28px; font-size:1.05rem; line-height:1.7;">
+            <p style="margin-bottom:12px;"><strong>因为我们是同一条路上的人。</strong></p>
+            <p>你正在经历的迷茫、焦虑、瓶颈，我们全都经历过。我们不是高高在上的老师，而是刚刚翻过高考这座山的学长学姐。</p>
+            <p style="margin-top:10px;">我们走过的弯路，你不必再走。我们踩过的坑，我们帮你填平。</p>
+            <p style="margin-top:10px; font-weight:500;">同途，陪你走通最难的那段路。</p>
+        </div>
+    </section>
+
+    <!-- 我们是谁 + 我们懂什么 -->
+    <section>
+        <div class="two-col">
+            <div class="feature-block">
+                <h4>🎓 我们是谁？</h4>
+                <p style="margin-bottom:8px;">我们是一群刚刚翻过高考这座山的人。身上的校服刚脱下没多久，笔袋里还留着用空的笔芯。</p>
+                <ul>
+                    <li>均毕业于光山二高实验班</li>
+                    <li>来自985/211高校（含清北复交）</li>
+                    <li>高考成绩均在河南前1%</li>
+                    <li>但我们最骄傲的不是分数，而是我们知道怎么从"不会"到"会"</li>
+                </ul>
+            </div>
+            <div class="feature-block">
+                <h4>🧠 我们懂什么？</h4>
+                <ul>
+                    <li><strong>"老师讲得太快了，我跟不上……"</strong> → 我们用最慢的速度，从零开始，一步一步拆给你看。</li>
+                    <li><strong>"有些题明明做过，换个数就不会了……"</strong> → 你没理解概念的本质。我们帮你打通底层逻辑。</li>
+                    <li><strong>"想问又不敢问，怕被说'这么简单都不会'……"</strong> → 在这里，你问多少遍都可以，因为我们自己也是这样学会的。</li>
+                    <li><strong>"努力了很久，成绩就是不动……"</strong> → 那不是你不努力，是方法不对。我们帮你找到最适合你的学习路径。</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 核心优势 + 管理保障（精简版） -->
+    <section>
+        <div class="section-title">我们的优势</div>
+        <div class="two-col">
+            <div class="feature-block">
+                <h4>💰 价格实惠</h4>
+                <ul>
+                    <li>高中原价120元/节，初中原价95元/节</li>
+                    <li>套餐"买X送Y"，买越多送越多</li>
+                    <li><strong>高中最多可降至66.5元/节</strong></li>
+                    <li><strong>初中最多可降至52.5元/节</strong></li>
+                </ul>
+                <div class="badge-list">
+                    <span class="badge blue">启程班 78h</span>
+                    <span class="badge blue">领航班 120h</span>
+                    <span class="badge blue">一对二 · 一对三</span>
+                </div>
+            </div>
+            <div class="feature-block">
+                <h4>🏆 师资顶尖</h4>
+                <ul>
+                    <li>985/211学长学姐，高考全省前1%</li>
+                    <li>刚经历高考，懂考点、懂痛点、懂学生</li>
+                    <li>同龄人榜样，沟通无代沟</li>
+                </ul>
+            </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:24px;">
+            <div class="feature-block">
+                <h4>⚡ 核心优势</h4>
+                <ul>
+                    <li>一对一讲懂讲透，不赶进度</li>
+                    <li>定制化教学，缺什么补什么</li>
+                    <li>课后随时答疑，线上跟踪监督</li>
+                    <li>同龄人榜样，沟通无代沟</li>
+                </ul>
+            </div>
+            <div class="feature-block">
+                <h4>🛡️ 管理保障</h4>
+                <ul>
+                    <li>每节课云录制，可回看可抽查</li>
+                    <li>课前教案审核，课后小结，双周诊断</li>
+                    <li>督学家长群，沟通透明</li>
+                </ul>
+                <div style="margin-top:10px; font-size:0.9rem; background:#e6f0fa; border-radius:12px; padding:10px 14px;">
+                    <strong>老师十条禁令</strong> · 迟到罚款 · 投诉2小时响应
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top:24px; background:#eaf2fa; border-radius:20px; padding:18px 24px; font-size:1.1rem; font-weight:500; text-align:center;">
+            📍 大班课是听老师讲，同途是老师听你讲。讲懂讲透，缺啥补啥，课后有人管，老师是榜样。
+        </div>
+    </section>
+
+    <!-- 教学流程（详细版） -->
+    <section>
+        <div class="section-title">我们怎么教？</div>
+        <p style="color:#475569; margin-bottom:24px;">—— 一套完整、可追溯的教学体系。好效果，来自好过程。</p>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:20px;">
+            <div class="feature-block">
+                <h4>🔍 第一步：诊断痛点，定制路径</h4>
+                <ul>
+                    <li><strong>深度诊断</strong>：首次课通过测试与交流，精准定位知识水平、思维习惯与核心薄弱点。</li>
+                    <li><strong>专属计划</strong>：根据诊断结果，为您制定《个人教学计划》，明确各阶段目标与重点。</li>
+                    <li><strong>个性化调整</strong>：教学过程中根据学生吸收速度灵活调整进度，不盲目赶课。</li>
+                </ul>
+            </div>
+            <div class="feature-block">
+                <h4>🧩 第二步：拆碎讲透，当堂消化</h4>
+                <ul>
+                    <li><strong>审核教案</strong>：老师需提交手写教案，经审核确保内容精准、方法得当。</li>
+                    <li><strong>五步课堂</strong>：采用<strong>"讲透概念→例题示范→学生练习→当场纠错→总结归纳"</strong>教学法，鼓励随时提问，不留死角。</li>
+                    <li><strong>当堂复盘</strong>：最后5分钟梳理知识地图，确保当堂内容当堂消化。</li>
+                </ul>
+            </div>
+            <div class="feature-block">
+                <h4>🎯 第三步：精准练习，闭环跟踪</h4>
+                <ul>
+                    <li><strong>靶向作业</strong>：课后练习针对当堂薄弱点设计，练到要害。</li>
+                    <li><strong>持续反馈</strong>：课后24小时内发送《课堂小结》；放学后老师在线答疑；下节课前检查作业，将未掌握点纳入复习。</li>
+                    <li><strong>课堂记录表</strong>：每节课填写记录，追踪学习轨迹。</li>
+                </ul>
+            </div>
+            <div class="feature-block">
+                <h4>📹 第四步：课程云录制，定期复盘</h4>
+                <ul>
+                    <li><strong>全程录制</strong>：每节课均开启腾讯会议云录制，课程可回看复习，管理层亦会随机抽查质量。</li>
+                    <li><strong>学情诊断</strong>：每两周输出一份《学情诊断报告》，含知识掌握图、进度、评语与后续计划，据此动态优化教学。</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 教学与管理手册（详细制度） -->
+    <section>
+        <div class="section-title">教学与管理手册</div>
+        <p style="color:#475569; margin-bottom:24px;">—— 严密的制度保障每一节课的质量。</p>
+
+        <div class="three-col">
+            <div class="feature-block">
+                <h4>📋 老师管理制度</h4>
+                <ul>
+                    <li><strong>备课检查</strong>：每节课前提交手写教案，审核通过后方可上课</li>
+                    <li><strong>迟到处罚</strong>：迟到一次罚款50元，第二次100元，三次以上解聘</li>
+                    <li><strong>教学反馈</strong>：课后24小时内必须发出课堂小结，漏发一次扣20元</li>
+                    <li><strong>质量抽查</strong>：管理层随机调取云录制视频，评估老师讲解质量</li>
+                    <li><strong>投诉处理</strong>：被投诉一次书面检讨，两次停课整改，三次解聘</li>
+                    <li><strong>续费奖励</strong>：所带学生成功续费，奖励该单利润的10%</li>
+                </ul>
+            </div>
+            <div class="feature-block">
+                <h4>🚫 老师行为十条禁令</h4>
+                <ol class="rule-list">
+                    <li>严禁迟到早退</li>
+                    <li>严禁上课玩手机</li>
+                    <li>严禁敷衍备课</li>
+                    <li>严禁辱骂或体罚学生</li>
+                    <li>严禁私下向家长索要财物</li>
+                    <li>严禁泄露学生隐私</li>
+                    <li>严禁随意调课缺课</li>
+                    <li>严禁课后不布置作业或不检查</li>
+                    <li>严禁在家长面前贬低学校老师或其他机构</li>
+                    <li>严禁与家长发生争执</li>
+                </ol>
+            </div>
+            <div class="feature-block">
+                <h4>👪 家长沟通制度</h4>
+                <ul>
+                    <li><strong>专属服务群</strong>：每个学生建立"同途·家长服务群"，成员包括家长、授课老师、教学主管</li>
+                    <li><strong>课后小结</strong>：每次课后在群内发送，家长可随时查看和留言</li>
+                    <li><strong>快速响应</strong>：投诉2小时内响应，一般问题24小时内解决，严重问题48小时内处理完毕</li>
+                    <li><strong>随时旁听</strong>：家长可随时申请旁听，无需提前预约</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 价目表 -->
+    <section>
+        <div class="section-title">价目表 · 高中</div>
+        <p style="color:#475569; margin-bottom:8px;">1h/节 · 原价120元/节</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+            <div>
+                <div style="font-weight:600; font-size:1.1rem; margin-bottom:8px;">启程班 <span style="font-weight:400; font-size:0.9rem; color:#475569;">买65送13 · 78h · 26天</span></div>
+                <table class="price-table">
+                    <tr><th>班型</th><th>总价</th></tr>
+                    <tr><td>一对一</td><td>7,800元</td></tr>
+                    <tr><td>一对二（每人）</td><td>6,240元</td></tr>
+                    <tr><td>一对三（每人）</td><td>5,460元</td></tr>
+                </table>
+            </div>
+            <div>
+                <div style="font-weight:600; font-size:1.1rem; margin-bottom:8px;">领航班 <span style="font-weight:400; font-size:0.9rem; color:#475569;">买95送25 · 120h · 40天</span></div>
+                <table class="price-table">
+                    <tr><th>班型</th><th>总价</th></tr>
+                    <tr><td>一对一</td><td>11,400元</td></tr>
+                    <tr><td>一对二（每人）</td><td>9,120元</td></tr>
+                    <tr><td>一对三（每人）</td><td>7,980元</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <div style="margin-top:32px;">
+            <div class="section-title" style="font-size:1.4rem;">价目表 · 初中</div>
+            <p style="color:#475569; margin-bottom:8px;">1h/节 · 原价95元/节</p>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+                <div>
+                    <div style="font-weight:600; font-size:1.1rem; margin-bottom:8px;">启程班 <span style="font-weight:400; font-size:0.9rem; color:#475569;">买65送13 · 78h · 26天</span></div>
+                    <table class="price-table">
+                        <tr><th>班型</th><th>总价</th></tr>
+                        <tr><td>一对一</td><td>6,240元</td></tr>
+                        <tr><td>一对二（每人）</td><td>4,992元</td></tr>
+                        <tr><td>一对三（每人）</td><td>4,368元</td></tr>
+                    </table>
+                </div>
+                <div>
+                    <div style="font-weight:600; font-size:1.1rem; margin-bottom:8px;">领航班 <span style="font-weight:400; font-size:0.9rem; color:#475569;">买94送26 · 120h · 40天</span></div>
+                    <table class="price-table">
+                        <tr><th>班型</th><th>总价</th></tr>
+                        <tr><td>一对一</td><td>9,000元</td></tr>
+                        <tr><td>一对二（每人）</td><td>7,200元</td></tr>
+                        <tr><td>一对三（每人）</td><td>6,300元</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="price-row" style="margin-top:28px;">
+            <div class="price-item"><span class="label">高中最低</span><div class="value">66.5元</div><div class="sub">/节（一对三领航班）</div></div>
+            <div class="price-item"><span class="label">初中最低</span><div class="value">52.5元</div><div class="sub">/节（一对三领航班）</div></div>
+            <div class="price-item"><span class="label">班型灵活</span><div class="value">一对一 · 一对二 · 一对三</div><div class="sub">自由组合，按需选择</div></div>
+        </div>
+    </section>
+
+    <!-- 报名表单 -->
+    <div class="form-section">
+        <h2>📝 预约报名 / 免费咨询</h2>
+        <p class="form-sub">填写以下信息，我们会在24小时内与您联系，为您定制专属学习方案。</p>
+        <form id="signupForm" class="form-grid">
+            <input type="hidden" name="access_key" value="67812f1f-18a5-45f4-a476-3544c93dcf06">
+            <input type="hidden" name="subject" value="同途教育 - 新报名">
+            <input type="hidden" name="from_name" value="同途教育报名系统">
+            <div class="form-group">
+                <label>家长姓名</label>
+                <input type="text" name="parentName" placeholder="您的称呼">
+            </div>
+            <div class="form-group">
+                <label><span class="required">*</span> 联系电话</label>
+                <input type="tel" name="phone" placeholder="手机号码" required>
+            </div>
+            <div class="form-group">
+                <label><span class="required">*</span> 学生姓名</label>
+                <input type="text" name="studentName" placeholder="孩子的姓名" required>
+            </div>
+            <div class="form-group">
+                <label>所在学校</label>
+                <input type="text" name="school" placeholder="例如：光山二高">
+            </div>
+            <div class="form-group">
+                <label>年级</label>
+                <select name="grade">
+                    <option value="">请选择年级</option>
+                    <optgroup label="小学">
+                        <option value="一年级">一年级</option>
+                        <option value="二年级">二年级</option>
+                        <option value="三年级">三年级</option>
+                        <option value="四年级">四年级</option>
+                        <option value="五年级">五年级</option>
+                        <option value="六年级">六年级</option>
+                    </optgroup>
+                    <optgroup label="初中">
+                        <option value="初一">初一</option>
+                        <option value="初二">初二</option>
+                        <option value="初三">初三</option>
+                    </optgroup>
+                    <optgroup label="高中">
+                        <option value="高一">高一</option>
+                        <option value="高二">高二</option>
+                        <option value="高三">高三</option>
+                    </optgroup>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>辅导科目（可多选）</label>
+                <div class="checkbox-group" id="subjectCheckboxes">
+                    <label><input type="checkbox" name="subjects" value="语文"><span>语文</span></label>
+                    <label><input type="checkbox" name="subjects" value="数学"><span>数学</span></label>
+                    <label><input type="checkbox" name="subjects" value="英语"><span>英语</span></label>
+                    <label><input type="checkbox" name="subjects" value="物理"><span>物理</span></label>
+                    <label><input type="checkbox" name="subjects" value="化学"><span>化学</span></label>
+                    <label><input type="checkbox" name="subjects" value="生物"><span>生物</span></label>
+                    <label><input type="checkbox" name="subjects" value="历史"><span>历史</span></label>
+                    <label><input type="checkbox" name="subjects" value="地理"><span>地理</span></label>
+                    <label><input type="checkbox" name="subjects" value="政治"><span>政治</span></label>
+                </div>
+            </div>
+            <div class="form-group full">
+                <label>备注</label>
+                <textarea name="notes" placeholder="您想了解的问题、孩子的情况等（选填）"></textarea>
+            </div>
+            <div class="form-msg" id="formMsg"></div>
+            <button type="submit" class="submit-btn">提交报名信息</button>
+        </form>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-wrapper">
+        <div class="cta-bar">
+            <div>
+                <div class="big">📞 直接联系我们</div>
+                <div class="small">免费试听 · 定制方案 · 随时咨询</div>
+            </div>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">📱</div>
+                    <div class="contact-label">电话：</div>
+                    <div class="contact-value">17538380012</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">💬</div>
+                    <div class="contact-label">微信：</div>
+                    <div class="contact-value">Dragon_260505</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footnote">
+        同途 · 高中、初中深度辅导 · 小学学业陪伴与习惯培养 · 1对1 / 小班课
+    </div>
+</div>
+
+<script>
+document.getElementById('signupForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    var form = this;
+    var btn = form.querySelector('.submit-btn');
+    var msgBox = document.getElementById('formMsg');
+
+    // 验证必填字段
+    var phone = form.querySelector('[name="phone"]').value.trim();
+    var studentName = form.querySelector('[name="studentName"]').value.trim();
+
+    if (!phone || !studentName) {
+        msgBox.className = 'form-msg error';
+        msgBox.textContent = '请至少填写联系电话和学生姓名';
+        msgBox.style.display = 'block';
+        return;
+    }
+
+    // 收集选中科目
+    var checkedSubjects = form.querySelectorAll('[name="subjects"]:checked');
+    var subjectValues = [];
+    checkedSubjects.forEach(function(cb) { subjectValues.push(cb.value); });
+
+    // 构建 FormData，直接提交给 Web3Forms
+    var formData = new FormData(form);
+    // 把多选的科目合并为一个字段
+    formData.set('subjects', subjectValues.join('、'));
+
+    btn.disabled = true;
+    btn.textContent = '正在提交...';
+    msgBox.className = 'form-msg';
+    msgBox.style.display = 'none';
+
+    try {
+        var response = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            body: formData
+        });
+
+        var result = await response.json();
+
+        if (result.success) {
+            msgBox.className = 'form-msg success';
+            msgBox.textContent = '✅ 提交成功！我们会尽快与您联系。';
+            msgBox.style.display = 'block';
+            form.reset();
+        } else {
+            msgBox.className = 'form-msg error';
+            msgBox.textContent = result.message || '提交失败，请稍后重试';
+            msgBox.style.display = 'block';
+        }
+    } catch (err) {
+        msgBox.className = 'form-msg error';
+        msgBox.textContent = '网络错误，请稍后重试';
+        msgBox.style.display = 'block';
+    }
+
+    btn.disabled = false;
+    btn.textContent = '提交报名信息';
+});
+</script>
+
+</body>
+</html>

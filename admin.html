@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>同途 · 管理后台</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif; }
+        body { background: #f1f5f9; color: #1e293b; padding: 24px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { background: linear-gradient(145deg, #0b1e33, #163a5e); color: white; padding: 28px 36px; border-radius: 20px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .header h1 { font-size: 1.6rem; }
+        .header-actions { display: flex; gap: 12px; align-items: center; }
+        .count-badge { background: rgba(255,255,255,0.15); padding: 8px 16px; border-radius: 20px; font-weight: 600; }
+        .refresh-btn { background: rgba(255,255,255,0.2); color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; font-size: 0.9rem; font-weight: 500; transition: 0.2s; }
+        .refresh-btn:hover { background: rgba(255,255,255,0.3); }
+        .lock-screen { background: white; border-radius: 20px; padding: 60px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+        .lock-screen h2 { font-size: 1.4rem; margin-bottom: 8px; color: #0b1e33; }
+        .lock-screen p { color: #64748b; margin-bottom: 24px; }
+        .lock-screen input { padding: 12px 20px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 1rem; width: 260px; outline: none; text-align: center; letter-spacing: 2px; }
+        .lock-screen input:focus { border-color: #2d7bcb; }
+        .lock-screen button { display: block; margin: 16px auto 0; padding: 12px 36px; background: #0b1e33; color: white; border: none; border-radius: 12px; font-size: 1rem; cursor: pointer; font-weight: 600; }
+        .lock-screen .error { color: #e53e3e; margin-top: 12px; font-size: 0.9rem; display: none; }
+        .card { background: white; border-radius: 20px; padding: 28px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); margin-bottom: 20px; }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .card-header h3 { font-size: 1.2rem; color: #0b1e33; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        thead th { background: #f1f5f9; padding: 12px 14px; text-align: left; font-weight: 600; color: #475569; border-bottom: 2px solid #e2e8f0; white-space: nowrap; }
+        tbody td { padding: 12px 14px; border-bottom: 1px solid #f1f5f9; vertical-align: top; }
+        tbody tr:hover td { background: #f8fafc; }
+        .tag { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 500; }
+        .tag-grade { background: #e3effc; color: #1e4d8c; }
+        .tag-subject { background: #eaf2fa; color: #0f2b44; margin: 2px; }
+        .tag-time { color: #94a3b8; font-size: 0.8rem; }
+        .empty-state { text-align: center; padding: 48px; color: #94a3b8; }
+        .empty-state .icon { font-size: 3rem; margin-bottom: 12px; }
+        .export-btn { background: #e8f0f8; color: #1e4d8c; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 500; }
+        .export-btn:hover { background: #d0e2f4; }
+        @media (max-width: 768px) {
+            table { font-size: 0.8rem; }
+            thead th, tbody td { padding: 8px 6px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+    <!-- 未登录：密码锁 -->
+    <div class="lock-screen" id="lockScreen">
+        <h2>🔒 同途 · 管理后台</h2>
+        <p>请输入管理密码查看报名信息</p>
+        <input type="password" id="pwdInput" placeholder="输入密码" onkeydown="if(event.key==='Enter')login()">
+        <button onclick="login()">进入后台</button>
+        <div class="error" id="loginError">密码错误，请重试</div>
+    </div>
+
+    <!-- 已登录：数据面板 -->
+    <div id="dashboard" style="display:none;">
+        <div class="header">
+            <div>
+                <h1>📊 同途 · 报名管理后台</h1>
+                <div style="opacity:0.7; font-size:0.9rem; margin-top:4px;">同一条路，同一群人</div>
+            </div>
+            <div class="header-actions">
+                <div class="count-badge" id="countBadge">共 0 人报名</div>
+                <button class="refresh-btn" onclick="loadData()">🔄 刷新</button>
+                <button class="refresh-btn" onclick="location.reload()">🚪 退出</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3>📋 报名列表</h3>
+                <div>
+                    <button class="export-btn" onclick="exportCSV()">📥 导出 CSV</button>
+                    <span style="margin-left:12px; font-size:0.85rem; color:#94a3b8;" id="updateTime"></span>
+                </div>
+            </div>
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>#</th><th>提交时间</th><th>家长姓名</th><th>联系电话</th>
+                        <th>学生姓名</th><th>学校</th><th>年级</th><th>辅导科目</th><th>备注</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+            <div class="empty-state" id="emptyState" style="display:none;">
+                <div class="icon">📭</div>
+                <p>暂无报名信息</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+var PASSWORD = 'tongtu2024';
+var currentData = [];
+
+function login() {
+    var pwd = document.getElementById('pwdInput').value;
+    if (pwd === PASSWORD) {
+        document.getElementById('lockScreen').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        loadData();
+    } else {
+        document.getElementById('loginError').style.display = 'block';
+    }
+}
+
+async function loadData() {
+    try {
+        var res = await fetch('/api/submissions?pwd=' + PASSWORD);
+        var result = await res.json();
+        if (result.success) {
+            currentData = result.data;
+            renderTable(currentData);
+            document.getElementById('countBadge').textContent = '共 ' + currentData.length + ' 人报名';
+            var now = new Date();
+            document.getElementById('updateTime').textContent = '更新于 ' + now.toLocaleTimeString('zh-CN');
+        }
+    } catch (e) {
+        console.error('加载数据失败', e);
+    }
+}
+
+function renderTable(data) {
+    var tbody = document.getElementById('tableBody');
+    var emptyState = document.getElementById('emptyState');
+
+    if (data.length === 0) {
+        tbody.innerHTML = '';
+        emptyState.style.display = 'block';
+        return;
+    }
+
+    emptyState.style.display = 'none';
+    var html = '';
+    data.forEach(function(item, index) {
+        var subjects = item.subjects ? item.subjects.split('、').map(function(s) {
+            return '<span class="tag tag-subject">' + s + '</span>';
+        }).join(' ') : '-';
+        html += '<tr>';
+        html += '<td>' + (data.length - index) + '</td>';
+        html += '<td><span class="tag-time">' + (item.createdAt || '-') + '</span></td>';
+        html += '<td>' + (item.parentName || '-') + '</td>';
+        html += '<td><strong>' + (item.phone || '-') + '</strong></td>';
+        html += '<td>' + (item.studentName || '-') + '</td>';
+        html += '<td>' + (item.school || '-') + '</td>';
+        html += '<td><span class="tag tag-grade">' + (item.grade || '-') + '</span></td>';
+        html += '<td>' + subjects + '</td>';
+        html += '<td style="max-width:150px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="' + (item.notes || '') + '">' + (item.notes || '-') + '</td>';
+        html += '</tr>';
+    });
+    tbody.innerHTML = html;
+}
+
+function exportCSV() {
+    if (currentData.length === 0) { alert('没有数据可导出'); return; }
+    var header = ['提交时间', '家长姓名', '联系电话', '学生姓名', '学校', '年级', '辅导科目', '备注'];
+    var rows = currentData.map(function(item) {
+        return [item.createdAt, item.parentName, item.phone, item.studentName, item.school, item.grade, item.subjects, item.notes];
+    });
+    var csv = '\uFEFF' + header.join(',') + '\n' + rows.map(function(r) { return r.map(function(c) { return '"' + String(c).replace(/"/g, '""') + '"'; }).join(','); }).join('\n');
+    var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = '同途报名数据_' + new Date().toISOString().slice(0,10) + '.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
